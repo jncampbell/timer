@@ -12,9 +12,8 @@ import Quartz
 @IBDesignable
 class TimerViewController: NSViewController
 {
-    
+    var timeTracker = [TimeTracker]()
     var timer = NSTimer()
-    let formatter = NSNumberFormatter()
     var hours = 00;
     var minutes = 00;
     var seconds = 00;
@@ -43,7 +42,10 @@ class TimerViewController: NSViewController
         timer.invalidate()
         
         //Create Daily Report
-        
+        if let time = TimeTracker(hours: hours, minutes: minutes, seconds: seconds) {
+            timeTracker.append(time)
+        }
+        saveTime()
         resetTime()
         timerTextField.stringValue = formatTime()
     }
@@ -71,32 +73,32 @@ class TimerViewController: NSViewController
     }
     
     private func formatTime() -> String {
+        let formatter = NSNumberFormatter()
         formatter.minimumIntegerDigits = 2
         return formatter.stringFromNumber(hours)! + ":" + formatter.stringFromNumber(minutes)! + ":" + formatter.stringFromNumber(seconds)!
     }
     
-    func saveDirectory() -> String {
-        let saveToDirectory = NSSearchPathForDirectoriesInDomains(.DesktopDirectory, .UserDomainMask, true)
-        return saveToDirectory[0] as String
+    func saveTime() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(timeTracker, toFile: TimeTracker.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("failed to save time tracker...")
+        }
     }
     
-    func writeToFile() -> Void {
-        let savePath = saveDirectory() + "/" + PathNames.ReportPath
-        if let outputStream = NSOutputStream(toFileAtPath: savePath, append: true) {
-            let output = formatTime()
-            outputStream.open()
-            outputStream.write(output, maxLength: output.characters.count)
-            outputStream.close()
-        } else {
-            print("Failed to write to file")
-        }
+    func loadTime() -> [TimeTracker]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(TimeTracker.ArchiveURL.path!) as? [TimeTracker]
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = CGColorCreateGenericRGB(51.0/255.0, 45.0/255.0, 65.0/255.0, 1.0)
-        writeToFile()
+        if let time = loadTime() {
+            timeTracker += time
+            for item in time {
+                print(item.seconds)
+            }
+        }
     }
 
 }
