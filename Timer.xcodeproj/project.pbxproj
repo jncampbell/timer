@@ -13,7 +13,7 @@
 		D1A15E791BDD2792005CB741 /* TimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A15E781BDD2792005CB741 /* TimerTests.swift */; };
 		D1A15E841BDD2C07005CB741 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A15E831BDD2C07005CB741 /* TimerViewController.swift */; };
 		D1F5487D1BDE8A2F0093EE82 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */; };
-		D1F548811BDFCB500093EE82 /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F548801BDFCB500093EE82 /* TimeTracker.swift */; };
+		D1F548811BDFCB500093EE82 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F548801BDFCB500093EE82 /* Timer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +37,7 @@
 		D1A15E7A1BDD2792005CB741 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1A15E831BDD2C07005CB741 /* TimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
-		D1F548801BDFCB500093EE82 /* TimeTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
+		D1F548801BDFCB500093EE82 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 				D1A15E661BDD2792005CB741 /* AppDelegate.swift */,
 				D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */,
 				D1A15E831BDD2C07005CB741 /* TimerViewController.swift */,
-				D1F548801BDFCB500093EE82 /* TimeTracker.swift */,
+				D1F548801BDFCB500093EE82 /* Timer.swift */,
 				D1A15E6C1BDD2792005CB741 /* Main.storyboard */,
 				D1A15E6A1BDD2792005CB741 /* Assets.xcassets */,
 				D1A15E6F1BDD2792005CB741 /* Info.plist */,
@@ -202,7 +202,7 @@
 				D1F5487D1BDE8A2F0093EE82 /* ReportViewController.swift in Sources */,
 				D1A15E841BDD2C07005CB741 /* TimerViewController.swift in Sources */,
 				D1A15E671BDD2792005CB741 /* AppDelegate.swift in Sources */,
-				D1F548811BDFCB500093EE82 /* TimeTracker.swift in Sources */,
+				D1F548811BDFCB500093EE82 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

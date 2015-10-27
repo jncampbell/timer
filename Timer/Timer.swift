@@ -1,5 +1,5 @@
 //
-//  TimeTracker.swift
+//  Timer.swift
 //  Timer
 //
 //  Created by J. Campbell on 10/27/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TimeTracker: NSObject, NSCoding {
+class Timer: NSObject, NSCoding {
     
     //MARK: Properties
     var hours: Int
@@ -19,7 +19,7 @@ class TimeTracker: NSObject, NSCoding {
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("timeTracker")
+    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("listOfTimes")
     
     //MARK: Types
     struct PropertyKey {

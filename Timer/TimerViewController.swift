@@ -12,38 +12,35 @@ import Quartz
 @IBDesignable
 class TimerViewController: NSViewController
 {
-    var timeTracker = [TimeTracker]()
-    var timer = NSTimer()
+    var timer = [Timer]()
+    var stopWatch = NSTimer()
     var hours = 00;
     var minutes = 00;
     var seconds = 00;
     var numberOfBreaks = 0;
     
+  
     @IBOutlet weak var timerTextField: NSTextFieldCell!
     
-    struct PathNames {
-        static let ReportPath = "productivity-in-hours.txt"
-    }
-    
     @IBAction func pressStart(sender: NSButton) {
-        if (!timer.valid) {
+        if (!stopWatch.valid) {
             timerTextField.stringValue = formatTime()
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
+            stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
         }
     }
     
     @IBAction func pressPause(sender: NSButton) {
-        timer.invalidate()
+        stopWatch.invalidate()
         numberOfBreaks++
     }
     
     @IBAction func pressEnd(sender: NSButton) {
         
-        timer.invalidate()
+        stopWatch.invalidate()
         
         //Create Daily Report
-        if let time = TimeTracker(hours: hours, minutes: minutes, seconds: seconds) {
-            timeTracker.append(time)
+        if let time = Timer(hours: hours, minutes: minutes, seconds: seconds) {
+            timer.append(time)
         }
         saveTime()
         resetTime()
@@ -79,14 +76,14 @@ class TimerViewController: NSViewController
     }
     
     func saveTime() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(timeTracker, toFile: TimeTracker.ArchiveURL.path!)
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(timer, toFile: Timer.ArchiveURL.path!)
         if !isSuccessfulSave {
             print("failed to save time tracker...")
         }
     }
     
-    func loadTime() -> [TimeTracker]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(TimeTracker.ArchiveURL.path!) as? [TimeTracker]
+    func loadTime() -> [Timer]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Timer.ArchiveURL.path!) as? [Timer]
     }
     
     override func viewDidLoad() {
@@ -94,9 +91,9 @@ class TimerViewController: NSViewController
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = CGColorCreateGenericRGB(51.0/255.0, 45.0/255.0, 65.0/255.0, 1.0)
         if let time = loadTime() {
-            timeTracker += time
-            for item in time {
-                print(item.seconds)
+            timer += time
+            for item in timer {
+                print(item.description)
             }
         }
     }
