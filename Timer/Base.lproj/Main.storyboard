@@ -881,17 +881,6 @@
                                     <action selector="pressEnd:" target="Erg-2J-yPA" id="Q35-oi-Vif"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DXx-qO-Snx">
-                                <rect key="frame" x="165" y="13" width="150" height="32"/>
-                                <animations/>
-                                <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oda-xJ-1dZ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="pressPause:" target="Erg-2J-yPA" id="uxc-gm-i0i"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTH-KG-DbU">
                                 <rect key="frame" x="18" y="64" width="444" height="36"/>
                                 <animations/>
@@ -900,6 +889,17 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DXx-qO-Snx">
+                                <rect key="frame" x="165" y="13" width="150" height="32"/>
+                                <animations/>
+                                <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oda-xJ-1dZ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="pressPause:" target="Erg-2J-yPA" id="uxc-gm-i0i"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="DXx-qO-Snx" secondAttribute="bottom" constant="20" symbolic="YES" id="1bh-hW-UIS"/>
@@ -921,6 +921,9 @@
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="endButton" destination="BkW-Ov-Poc" id="hzp-jR-ldf"/>
+                        <outlet property="pauseButton" destination="DXx-qO-Snx" id="a3J-FL-LOJ"/>
+                        <outlet property="startButton" destination="nV2-MM-Aty" id="BxR-LF-ZTM"/>
                         <outlet property="timerTextField" destination="m16-QP-a8o" id="AXE-9A-kBO"/>
                     </connections>
                 </viewController>

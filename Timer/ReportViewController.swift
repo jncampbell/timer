@@ -13,15 +13,27 @@ class ReportViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
     @IBOutlet weak var reportHeader: NSView!
     @IBOutlet weak var tableView: NSTableView!
     
-    var data = ["James", "Asha", "Tiki Popo", "Walter", "Olivia"]
+    var data = [Timer]()
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return data.count
+        let times = loadTime()!
+        return times.count
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
         if let times = loadTime() {
-
+            switch tableColumn!.identifier {
+                case "DateColumn":
+                    return nil
+                case "TimeWorkedColumn":
+                    let time = String(times[row].hours) + ":" + String(times[row].minutes) + ":" + String(times[row].seconds)
+                    return time
+                case "NumberOfStopsColumn":
+                    return nil
+                case "TimeStoppedColumn":
+                    return nil
+            default: break
+            }
         }
         return nil
     }
