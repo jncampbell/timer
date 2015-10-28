@@ -56,29 +56,36 @@ class TimerViewController: NSViewController
         timerTextField.stringValue = formatTime()
     }
     
+    private struct ButtonNames {
+        static let Start = "Start"
+        static let Pause = "Pause"
+        static let Resume = "Resume"
+        static let End = "End"
+    }
+    
     func setStateForButtons(buttonPressed: NSButton?=nil) -> Void {
         
         if let button = buttonPressed {
             switch button.title {
-            case "Start":
+            case ButtonNames.Start:
                 startButton.enabled = false
                 pauseButton.enabled = true
                 endButton.enabled = true
-            case "End":
+            case ButtonNames.End:
                 startButton.enabled = true
                 pauseButton.enabled = false
                 if pauseButton.state == 1 {
-                    pauseButton.title = "Pause"
+                    pauseButton.title = ButtonNames.Pause
                     pauseButton.state = 0
                 }
                 endButton.enabled = false
-            case "Pause":
+            case ButtonNames.Pause:
                 if button.state == 1 {
-                    button.title = "Resume"
+                    button.title = ButtonNames.Resume
                 }
-            case "Resume":
+            case ButtonNames.Resume:
                 if button.state == 0 {
-                    button.title = "Pause"
+                    button.title = ButtonNames.Pause
                 }
             default: break
             }
