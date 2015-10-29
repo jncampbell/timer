@@ -12,91 +12,118 @@ import Quartz
 @IBDesignable
 class TimerViewController: NSViewController
 {
-    
-    var timer = NSTimer()
-    let formatter = NSNumberFormatter()
-    var hours = 00;
-    var minutes = 00;
-    var seconds = 00;
-    var numberOfBreaks = 0;
-    
+    var stopWatch = NSTimer()
+    var reports = [Report]()
+    var timer = Timer(hours: 00, minutes: 00, seconds: 00)
+    var supervisor = Supervisor()
+
     @IBOutlet weak var timerTextField: NSTextFieldCell!
-    
-    struct PathNames {
-        static let ReportPath = "productivity-in-hours.txt"
-    }
+    @IBOutlet weak var startButton: NSButton!
+    @IBOutlet weak var pauseButton: NSButton!
+    @IBOutlet weak var endButton: NSButton!
     
     @IBAction func pressStart(sender: NSButton) {
-        if (!timer.valid) {
-            timerTextField.stringValue = formatTime()
-            timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
-        }
+        setStateForButtons(sender)
+        timerTextField.stringValue = timer.returnAsString()
+        stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
+        supervisor.startTime = NSDate().timeIntervalSince1970
+        supervisor.date = NSDate().timeIntervalSince1970
+        sender.enabled = false
+        
     }
     
     @IBAction func pressPause(sender: NSButton) {
-        timer.invalidate()
-        numberOfBreaks++
+        setStateForButtons(sender)
+        if (sender.state == 1) {
+            stopWatch.invalidate()
+            supervisor.numberOfBreaks++
+        } else {
+            stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTimeLabel", userInfo: nil, repeats: true)
+        }
     }
     
     @IBAction func pressEnd(sender: NSButton) {
-        
-        timer.invalidate()
-        
-        //Create Daily Report
-        
-        resetTime()
-        timerTextField.stringValue = formatTime()
+        setStateForButtons(sender)
+        stopWatch.invalidate()
+        supervisor.endTime = NSDate().timeIntervalSince1970
+        supervisor.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
+        let report = Report(
+            date: Int(supervisor.date!),
+            totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
+            totalNumberOfBreaks: supervisor.numberOfBreaks,
+            totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
+        )
+        reports.append(report)
+        saveReport()
+        timerTextField.stringValue = timer.reset()
     }
     
-    func resetTime() -> Void {
-        hours = 00;
-        minutes = 00;
-        seconds = 00;
+    private struct ButtonNames {
+        static let Start = "Start"
+        static let Pause = "Pause"
+        static let Resume = "Resume"
+        static let End = "End"
+    }
+    
+    func setStateForButtons(buttonPressed: NSButton?=nil) -> Void {
+        
+        if let button = buttonPressed {
+            switch button.title {
+            case ButtonNames.Start:
+                startButton.enabled = false
+                pauseButton.enabled = true
+                endButton.enabled = true
+            case ButtonNames.End:
+                startButton.enabled = true
+                pauseButton.enabled = false
+                if pauseButton.state == 1 {
+                    pauseButton.title = ButtonNames.Pause
+                    pauseButton.state = 0
+                }
+                endButton.enabled = false
+            case ButtonNames.Pause:
+                if button.state == 1 {
+                    button.title = ButtonNames.Resume
+                }
+            case ButtonNames.Resume:
+                if button.state == 0 {
+                    button.title = ButtonNames.Pause
+                }
+            default: break
+            }
+        } else {
+            startButton.enabled = true
+            pauseButton.enabled = false
+            endButton.enabled = false
+        }
     }
     
     func updateTimeLabel() -> Void {
-        
-        if (minutes == 59 && seconds == 59) {
-            hours += 1
-            minutes = 00
-            seconds = 00
-        } else if (seconds == 59) {
-            minutes += 1
-            seconds = 00
-        } else {
-            seconds += 1
-        }
-        
-        timerTextField.stringValue = formatTime()
-    }
-    
-    private func formatTime() -> String {
-        formatter.minimumIntegerDigits = 2
-        return formatter.stringFromNumber(hours)! + ":" + formatter.stringFromNumber(minutes)! + ":" + formatter.stringFromNumber(seconds)!
-    }
-    
-    func saveDirectory() -> String {
-        let saveToDirectory = NSSearchPathForDirectoriesInDomains(.DesktopDirectory, .UserDomainMask, true)
-        return saveToDirectory[0] as String
-    }
-    
-    func writeToFile() -> Void {
-        let savePath = saveDirectory() + "/" + PathNames.ReportPath
-        if let outputStream = NSOutputStream(toFileAtPath: savePath, append: true) {
-            let output = formatTime()
-            outputStream.open()
-            outputStream.write(output, maxLength: output.characters.count)
-            outputStream.close()
-        } else {
-            print("Failed to write to file")
-        }
+        timer.increment()
+        timerTextField.stringValue = timer.returnAsString()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = CGColorCreateGenericRGB(51.0/255.0, 45.0/255.0, 65.0/255.0, 1.0)
-        writeToFile()
+        setStateForButtons()
+        if let savedReports = loadReports() {
+            reports += savedReports
+        }
+    }
+    
+    //MARK: NSCoding
+    
+    func saveReport() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(reports, toFile: Report.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("Failed saving reports...")
+        }
+    }
+    
+    func loadReports() -> [Report]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Report.ArchiveURL.path!) as? [Report]
     }
 
 }

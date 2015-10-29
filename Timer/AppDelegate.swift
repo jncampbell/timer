@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Timer
+//  listOfTimes
 //
 //  Created by J. Campbell on 10/25/15.
 //  Copyright © 2015 James N. Campbell. All rights reserved.
