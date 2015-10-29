@@ -13,6 +13,7 @@ import Quartz
 class TimerViewController: NSViewController
 {
     var stopWatch = NSTimer()
+    var reports = [Report]()
     var timer = Timer(hours: 00, minutes: 00, seconds: 00)
     var supervisor = Supervisor()
 
@@ -26,6 +27,7 @@ class TimerViewController: NSViewController
         timerTextField.stringValue = timer.returnAsString()
         stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
         supervisor.startTime = NSDate().timeIntervalSince1970
+        supervisor.date = NSDate().timeIntervalSince1970
         sender.enabled = false
         
     }
@@ -45,6 +47,14 @@ class TimerViewController: NSViewController
         stopWatch.invalidate()
         supervisor.endTime = NSDate().timeIntervalSince1970
         supervisor.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
+        let report = Report(
+            date: Int(supervisor.date!),
+            totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
+            totalNumberOfBreaks: supervisor.numberOfBreaks,
+            totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
+        )
+        reports.append(report)
+        saveReport()
         timerTextField.stringValue = timer.reset()
     }
     
@@ -98,6 +108,22 @@ class TimerViewController: NSViewController
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = CGColorCreateGenericRGB(51.0/255.0, 45.0/255.0, 65.0/255.0, 1.0)
         setStateForButtons()
+        if let savedReports = loadReports() {
+            reports += savedReports
+        }
+    }
+    
+    //MARK: NSCoding
+    
+    func saveReport() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(reports, toFile: Report.ArchiveURL.path!)
+        if !isSuccessfulSave {
+            print("Failed saving reports...")
+        }
+    }
+    
+    func loadReports() -> [Report]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Report.ArchiveURL.path!) as? [Report]
     }
 
 }

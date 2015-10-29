@@ -10,31 +10,51 @@ import Cocoa
 
 class ReportViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource {
 
+    
     @IBOutlet weak var reportHeader: NSView!
     @IBOutlet weak var tableView: NSTableView!
+    var reports = [Report]()
     
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        
-        return 1
+        return reports.count
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-//        if let times = loadTime() {
-//            switch tableColumn!.identifier {
-//                case "DateColumn":
-//                    return nil
-//                case "TimeWorkedColumn":
-//                    let time = String(times[row].hours) + ":" + String(times[row].minutes) + ":" + String(times[row].seconds)
-//                    return time
-//                case "NumberOfStopsColumn":
-//                    return nil
-//                case "TimeStoppedColumn":
-//                    return nil
-//            default: break
-//            }
-//        }
+
+            switch tableColumn!.identifier {
+            case "DateColumn":
+
+                //print(NSDate(timeIntervalSince1970: NSTimeInterval(reports[row].date)))
+                return formatDateForTable(reports[row].date)
+            case "TimeWorkedColumn":
+                return convertSecondsToTime(reports[row].totalSecondsSpentWorking)
+            case "NumberOfStopsColumn":
+                return reports[row].totalNumberOfBreaks
+            case "TimeStoppedColumn":
+                return convertSecondsToTime(reports[row].totalSecondsSpentOnBreak)
+            default:break
+            }
         return nil
+    }
+
+    private func formatDateForTable(date: Int) -> String {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = NSTimeZone()
+        return formatter.stringFromDate(NSDate(timeIntervalSince1970: NSTimeInterval(date)))
+    }
+    
+    private func convertSecondsToTime(totalSeconds: Int) -> String {
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 2
+        var hours = 00, minutes = 00, seconds = 00
+        let numberOfSecondsInHour = 3600
+        hours = totalSeconds / numberOfSecondsInHour
+        minutes = (totalSeconds % numberOfSecondsInHour) / 60
+        seconds = (totalSeconds % numberOfSecondsInHour) % 60
+        
+        return formatter.stringFromNumber(hours)! + ":" + formatter.stringFromNumber(minutes)! + ":" + formatter.stringFromNumber(seconds)!
     }
 
     
@@ -51,6 +71,13 @@ class ReportViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
         super.viewDidLoad()
         // Do view setup here.
         setUpHeader()
+        if let savedReports = loadReports() {
+            reports += savedReports
+        }
+    }
+    
+    func loadReports() -> [Report]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Report.ArchiveURL.path!) as? [Report]
     }
     
 }
