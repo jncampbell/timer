@@ -47,13 +47,19 @@ class TimerViewController: NSViewController
         stopWatch.invalidate()
         supervisor.endTime = NSDate().timeIntervalSince1970
         supervisor.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
-        let report = Report(
-            date: Int(supervisor.date!),
-            totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
-            totalNumberOfBreaks: supervisor.numberOfBreaks,
-            totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
-        )
-        reports.append(report)
+        if reports.last != nil && supervisor.date!.landsOnSameDayAs(NSTimeInterval(reports.last!.date)) {
+            reports.last!.totalSecondsSpentWorking += supervisor.totalSecondsSpentWorking
+            reports.last!.totalNumberOfBreaks += supervisor.numberOfBreaks + 1 //+ 1 since the time betw the 1st end and 2nd start counts as a break
+            reports.last!.totalSecondsSpentOnBreak += supervisor.totalSecondsSpentOnBreak
+        } else {
+            let report = Report(
+                date: Int(supervisor.date!),
+                totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
+                totalNumberOfBreaks: supervisor.numberOfBreaks,
+                totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
+            )
+            reports.append(report)
+        }
         saveReport()
         timerTextField.stringValue = timer.reset()
     }
@@ -127,3 +133,38 @@ class TimerViewController: NSViewController
     }
 
 }
+
+extension NSTimeInterval {
+    
+    func landsOnSameDayAs(intervalToCompare: NSTimeInterval) -> Bool {
+        let formatter = NSDateFormatter()
+        formatter.timeZone = NSTimeZone()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        if formatter.stringFromDate(NSDate(timeIntervalSince1970: self)) == formatter.stringFromDate(NSDate(timeIntervalSince1970: intervalToCompare)) {
+            return true
+        }
+        
+        return false
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
