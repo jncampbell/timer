@@ -13,28 +13,27 @@ class ReportViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
     @IBOutlet weak var reportHeader: NSView!
     @IBOutlet weak var tableView: NSTableView!
     
-    var data = [Timer]()
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        let times = loadTime()!
-        return times.count
+        
+        return 1
     }
     
     func tableView(tableView: NSTableView, objectValueForTableColumn tableColumn: NSTableColumn?, row: Int) -> AnyObject? {
-        if let times = loadTime() {
-            switch tableColumn!.identifier {
-                case "DateColumn":
-                    return nil
-                case "TimeWorkedColumn":
-                    let time = String(times[row].hours) + ":" + String(times[row].minutes) + ":" + String(times[row].seconds)
-                    return time
-                case "NumberOfStopsColumn":
-                    return nil
-                case "TimeStoppedColumn":
-                    return nil
-            default: break
-            }
-        }
+//        if let times = loadTime() {
+//            switch tableColumn!.identifier {
+//                case "DateColumn":
+//                    return nil
+//                case "TimeWorkedColumn":
+//                    let time = String(times[row].hours) + ":" + String(times[row].minutes) + ":" + String(times[row].seconds)
+//                    return time
+//                case "NumberOfStopsColumn":
+//                    return nil
+//                case "TimeStoppedColumn":
+//                    return nil
+//            default: break
+//            }
+//        }
         return nil
     }
 
@@ -54,7 +53,4 @@ class ReportViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
         setUpHeader()
     }
     
-    func loadTime() -> [Timer]? {
-        return NSKeyedUnarchiver.unarchiveObjectWithFile(Timer.ArchiveURL.path!) as? [Timer]
-    }
 }

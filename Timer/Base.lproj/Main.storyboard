@@ -732,7 +732,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" headerView="cAS-yJ-sO2" id="ZTh-SO-5Em">
-                                                    <rect key="frame" x="0.0" y="0.0" width="803" height="445"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="803" height="439"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <animations/>
                                                     <size key="intercellSpacing" width="0.25" height="0.0"/>
@@ -812,7 +812,7 @@
                                             <animations/>
                                         </scroller>
                                         <tableHeaderView key="headerView" id="cAS-yJ-sO2">
-                                            <rect key="frame" x="0.0" y="0.0" width="803" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="803" height="23"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableHeaderView>

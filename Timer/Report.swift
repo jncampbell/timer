@@ -8,24 +8,22 @@
 
 import Foundation
 
-class Report {
+class Report: NSObject {
     
-    var date: NSTimeInterval?
-    var timeStarted: NSTimeInterval?
-    var timeStopped: NSTimeInterval?
-    var numberOfBreaks = 0
-    var totalSecondsSpentOnBreak = 0
+    //MARK: Properties
+    var date: Int
+    var totalSecondsSpentWorking: Int
+    var totalNumberOfBreaks: Int
+    var totalSecondsSpentOnBreak: Int
     
-    func generate() -> NSDictionary {
-        let report = [
-            "date": Int(date!),
-            "timeStarted": Int(timeStarted!),
-            "timeStopped": Int(timeStopped!),
-            "numberOfBreaks": numberOfBreaks,
-            "totalSecondsSpentOnBreak": totalSecondsSpentOnBreak
-        ]
-        return report
+    //MARK: Initialization
+    init(date: Int, totalSecondsSpentWorking: Int, totalNumberOfBreaks: Int, totalSecondsSpentOnBreak: Int) {
+        self.date = date
+        self.totalSecondsSpentWorking = totalSecondsSpentWorking
+        self.totalNumberOfBreaks = totalNumberOfBreaks
+        self.totalSecondsSpentOnBreak = totalSecondsSpentOnBreak
+        
+        super.init()
+
     }
-    
-    
 }

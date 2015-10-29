@@ -15,6 +15,7 @@
 		D1F5487D1BDE8A2F0093EE82 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */; };
 		D1F548811BDFCB500093EE82 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F548801BDFCB500093EE82 /* Timer.swift */; };
 		D1F548891BE1092F0093EE82 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F548881BE1092F0093EE82 /* Report.swift */; };
+		D1F5488B1BE1AA110093EE82 /* Supervisor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F5488A1BE1AA110093EE82 /* Supervisor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		D1F548801BDFCB500093EE82 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		D1F548881BE1092F0093EE82 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		D1F5488A1BE1AA110093EE82 /* Supervisor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Supervisor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,10 +84,11 @@
 			isa = PBXGroup;
 			children = (
 				D1A15E661BDD2792005CB741 /* AppDelegate.swift */,
-				D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */,
-				D1F548881BE1092F0093EE82 /* Report.swift */,
 				D1A15E831BDD2C07005CB741 /* TimerViewController.swift */,
+				D1F5487C1BDE8A2F0093EE82 /* ReportViewController.swift */,
 				D1F548801BDFCB500093EE82 /* Timer.swift */,
+				D1F5488A1BE1AA110093EE82 /* Supervisor.swift */,
+				D1F548881BE1092F0093EE82 /* Report.swift */,
 				D1A15E6C1BDD2792005CB741 /* Main.storyboard */,
 				D1A15E6A1BDD2792005CB741 /* Assets.xcassets */,
 				D1A15E6F1BDD2792005CB741 /* Info.plist */,
@@ -203,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1F5487D1BDE8A2F0093EE82 /* ReportViewController.swift in Sources */,
+				D1F5488B1BE1AA110093EE82 /* Supervisor.swift in Sources */,
 				D1F548891BE1092F0093EE82 /* Report.swift in Sources */,
 				D1A15E841BDD2C07005CB741 /* TimerViewController.swift in Sources */,
 				D1A15E671BDD2792005CB741 /* AppDelegate.swift in Sources */,

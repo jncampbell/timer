@@ -8,28 +8,15 @@
 
 import Foundation
 
-class Timer: NSObject, NSCoding {
+class Timer: NSObject {
     
     //MARK: Properties
     var hours: Int
     var minutes: Int
     var seconds: Int
-    var numberOfStops = 0
-    var timeStopped = 0
-    
-    //MARK: Archiving Paths
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-    static let ArchiveURL = DocumentsDirectory.URLByAppendingPathComponent("listOfTimes")
-    
-    //MARK: Types
-    struct PropertyKey {
-        static let hoursKey = "hours"
-        static let minutesKey = "minutes"
-        static let secondsKey = "seconds"
-    }
     
     //MARK: Initialization
-    init?(hours: Int, minutes: Int, seconds: Int) {
+    init(hours: Int, minutes: Int, seconds: Int) {
         self.hours = hours
         self.minutes = minutes
         self.seconds = seconds
@@ -37,20 +24,33 @@ class Timer: NSObject, NSCoding {
         super.init()
     }
     
-    //MARK: NSCoding
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(hours, forKey: PropertyKey.hoursKey)
-        aCoder.encodeObject(minutes, forKey: PropertyKey.minutesKey)
-        aCoder.encodeObject(seconds, forKey: PropertyKey.secondsKey)
+    func reset() -> String {
+        hours = 00
+        minutes = 00
+        seconds = 00
+        return returnAsString()
     }
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        let hours = aDecoder.decodeObjectForKey(PropertyKey.hoursKey) as! Int
-        let minutes = aDecoder.decodeObjectForKey(PropertyKey.minutesKey) as! Int
-        let seconds = aDecoder.decodeObjectForKey(PropertyKey.secondsKey) as! Int
-        
-        self.init(hours: hours, minutes: minutes, seconds: seconds)
+    func returnAsString() -> String {
+
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 2
+        return formatter.stringFromNumber(hours)! + ":" + formatter.stringFromNumber(minutes)! + ":" + formatter.stringFromNumber(seconds)!
     }
+    
+    func increment() {
+        if (minutes == 59 && seconds == 59) {
+            hours += 1
+            minutes = 00
+            seconds = 00
+        } else if (seconds == 59) {
+            minutes += 1
+            seconds = 00
+        } else {
+            seconds += 1
+        }
+    }
+    
 }
 
 
