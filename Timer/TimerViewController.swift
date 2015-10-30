@@ -49,7 +49,7 @@ class TimerViewController: NSViewController
         supervisor.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
         if reports.last != nil && supervisor.date!.landsOnSameDayAs(NSTimeInterval(reports.last!.date)) {
             reports.last!.totalSecondsSpentWorking += supervisor.totalSecondsSpentWorking
-            reports.last!.totalNumberOfBreaks += supervisor.numberOfBreaks + 1 //+ 1 since the time betw the 1st end and 2nd start counts as a break
+            reports.last!.totalNumberOfBreaks += supervisor.numberOfBreaks
             reports.last!.totalSecondsSpentOnBreak += supervisor.totalSecondsSpentOnBreak
         } else {
             let report = Report(
@@ -61,6 +61,7 @@ class TimerViewController: NSViewController
             reports.append(report)
         }
         saveReport()
+        supervisor.numberOfBreaks = 0
         timerTextField.stringValue = timer.reset()
     }
     
