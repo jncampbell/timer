@@ -859,71 +859,96 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="125"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nV2-MM-Aty">
-                                <rect key="frame" x="14" y="13" width="151" height="32"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="0m9-t5-hPU">
+                                <rect key="frame" x="0.0" y="52" width="480" height="73"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTH-KG-DbU">
+                                        <rect key="frame" x="18" y="19" width="444" height="36"/>
+                                        <animations/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="00:00:00" id="m16-QP-a8o" userLabel="Timer Text Field">
+                                            <font key="font" metaFont="system" size="30"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="ZTH-KG-DbU" firstAttribute="centerX" secondItem="0m9-t5-hPU" secondAttribute="centerX" id="I3K-zA-JEc"/>
+                                    <constraint firstItem="ZTH-KG-DbU" firstAttribute="leading" secondItem="0m9-t5-hPU" secondAttribute="leading" constant="20" id="JJH-Gu-UJC"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZTH-KG-DbU" secondAttribute="trailing" constant="20" id="yD5-CL-AVm"/>
+                                    <constraint firstItem="ZTH-KG-DbU" firstAttribute="centerY" secondItem="0m9-t5-hPU" secondAttribute="centerY" id="yRW-D9-CIg"/>
+                                </constraints>
                                 <animations/>
-                                <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ezm-j9-Beg">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="pressStart:" target="Erg-2J-yPA" id="5zt-qS-SVG"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkW-Ov-Poc">
-                                <rect key="frame" x="315" y="13" width="151" height="32"/>
+                            </customView>
+                            <customView verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="hBr-fq-W1Q">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="53"/>
+                                <subviews>
+                                    <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nV2-MM-Aty">
+                                        <rect key="frame" x="14" y="9" width="151" height="32"/>
+                                        <animations/>
+                                        <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ezm-j9-Beg">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="pressStart:" target="Erg-2J-yPA" id="5zt-qS-SVG"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DXx-qO-Snx">
+                                        <rect key="frame" x="165" y="9" width="150" height="32"/>
+                                        <animations/>
+                                        <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oda-xJ-1dZ">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="pressPause:" target="Erg-2J-yPA" id="uxc-gm-i0i"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkW-Ov-Poc">
+                                        <rect key="frame" x="315" y="9" width="151" height="32"/>
+                                        <animations/>
+                                        <buttonCell key="cell" type="push" title="End" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Q0S-T0-EHO">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="pressEnd:" target="Erg-2J-yPA" id="Q35-oi-Vif"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="nV2-MM-Aty" firstAttribute="width" secondItem="DXx-qO-Snx" secondAttribute="width" id="0AB-9D-GKj"/>
+                                    <constraint firstItem="BkW-Ov-Poc" firstAttribute="leading" secondItem="DXx-qO-Snx" secondAttribute="trailing" constant="12" id="7fo-Ou-i4Q"/>
+                                    <constraint firstItem="nV2-MM-Aty" firstAttribute="centerY" secondItem="hBr-fq-W1Q" secondAttribute="centerY" id="EcJ-sd-ZdT"/>
+                                    <constraint firstItem="DXx-qO-Snx" firstAttribute="leading" secondItem="nV2-MM-Aty" secondAttribute="trailing" constant="12" id="Koc-Ri-1uP"/>
+                                    <constraint firstAttribute="trailing" secondItem="BkW-Ov-Poc" secondAttribute="trailing" constant="20" id="QjB-99-nRk"/>
+                                    <constraint firstItem="nV2-MM-Aty" firstAttribute="leading" secondItem="hBr-fq-W1Q" secondAttribute="leading" constant="20" id="pJD-0v-Hzl"/>
+                                    <constraint firstItem="BkW-Ov-Poc" firstAttribute="centerY" secondItem="hBr-fq-W1Q" secondAttribute="centerY" id="q4T-C9-wec"/>
+                                    <constraint firstItem="DXx-qO-Snx" firstAttribute="width" secondItem="BkW-Ov-Poc" secondAttribute="width" id="ukA-GH-EeA"/>
+                                    <constraint firstItem="DXx-qO-Snx" firstAttribute="centerY" secondItem="hBr-fq-W1Q" secondAttribute="centerY" id="xcT-a4-8an"/>
+                                </constraints>
                                 <animations/>
-                                <buttonCell key="cell" type="push" title="End" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Q0S-T0-EHO">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="pressEnd:" target="Erg-2J-yPA" id="Q35-oi-Vif"/>
-                                </connections>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTH-KG-DbU">
-                                <rect key="frame" x="18" y="64" width="444" height="36"/>
-                                <animations/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="00:00:00" id="m16-QP-a8o" userLabel="Timer Text Field">
-                                    <font key="font" metaFont="system" size="30"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DXx-qO-Snx">
-                                <rect key="frame" x="165" y="13" width="150" height="32"/>
-                                <animations/>
-                                <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oda-xJ-1dZ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="pressPause:" target="Erg-2J-yPA" id="uxc-gm-i0i"/>
-                                </connections>
-                            </button>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="DXx-qO-Snx" secondAttribute="bottom" constant="20" symbolic="YES" id="1bh-hW-UIS"/>
-                            <constraint firstItem="DXx-qO-Snx" firstAttribute="width" secondItem="BkW-Ov-Poc" secondAttribute="width" id="2xY-qo-aao"/>
-                            <constraint firstItem="DXx-qO-Snx" firstAttribute="top" secondItem="BkW-Ov-Poc" secondAttribute="top" id="AeV-uD-PXa"/>
-                            <constraint firstItem="BkW-Ov-Poc" firstAttribute="leading" secondItem="DXx-qO-Snx" secondAttribute="trailing" constant="12" symbolic="YES" id="ApO-PT-PgM"/>
-                            <constraint firstItem="ZTH-KG-DbU" firstAttribute="top" secondItem="ezH-UD-eum" secondAttribute="top" constant="25" id="Hc4-vD-f0n"/>
-                            <constraint firstAttribute="bottom" secondItem="BkW-Ov-Poc" secondAttribute="bottom" constant="20" symbolic="YES" id="KMt-OL-Rfn"/>
-                            <constraint firstItem="nV2-MM-Aty" firstAttribute="width" secondItem="DXx-qO-Snx" secondAttribute="width" id="d7O-PV-9HK"/>
-                            <constraint firstAttribute="bottom" secondItem="nV2-MM-Aty" secondAttribute="bottom" constant="20" symbolic="YES" id="gpC-hb-kqI"/>
-                            <constraint firstItem="DXx-qO-Snx" firstAttribute="leading" secondItem="nV2-MM-Aty" secondAttribute="trailing" constant="12" symbolic="YES" id="ltY-3q-geR"/>
-                            <constraint firstAttribute="trailing" secondItem="ZTH-KG-DbU" secondAttribute="trailing" constant="20" symbolic="YES" id="pJH-6M-JOY"/>
-                            <constraint firstItem="nV2-MM-Aty" firstAttribute="leading" secondItem="ezH-UD-eum" secondAttribute="leading" constant="20" symbolic="YES" id="pXu-F7-cjm"/>
-                            <constraint firstAttribute="bottom" secondItem="ZTH-KG-DbU" secondAttribute="bottom" constant="64" id="sen-rr-qIC"/>
-                            <constraint firstItem="ZTH-KG-DbU" firstAttribute="leading" secondItem="ezH-UD-eum" secondAttribute="leading" constant="20" symbolic="YES" id="ttQ-El-cMr"/>
-                            <constraint firstItem="nV2-MM-Aty" firstAttribute="top" secondItem="DXx-qO-Snx" secondAttribute="top" id="wAP-PF-iwO"/>
-                            <constraint firstAttribute="trailing" secondItem="BkW-Ov-Poc" secondAttribute="trailing" constant="20" symbolic="YES" id="yoh-uS-bep"/>
+                            <constraint firstItem="0m9-t5-hPU" firstAttribute="top" secondItem="ezH-UD-eum" secondAttribute="top" id="L2z-2h-eUZ"/>
+                            <constraint firstItem="0m9-t5-hPU" firstAttribute="width" secondItem="ezH-UD-eum" secondAttribute="width" id="Tt6-F9-7Ui"/>
+                            <constraint firstAttribute="bottom" secondItem="0m9-t5-hPU" secondAttribute="bottom" constant="52" id="Ttq-D0-6Xm"/>
+                            <constraint firstAttribute="trailing" secondItem="0m9-t5-hPU" secondAttribute="trailing" id="gAB-gp-nYb"/>
+                            <constraint firstAttribute="trailing" secondItem="hBr-fq-W1Q" secondAttribute="trailing" id="jav-Ec-QMq"/>
+                            <constraint firstItem="hBr-fq-W1Q" firstAttribute="top" secondItem="0m9-t5-hPU" secondAttribute="bottom" constant="-1" id="n7B-UO-zkZ"/>
+                            <constraint firstItem="hBr-fq-W1Q" firstAttribute="leading" secondItem="ezH-UD-eum" secondAttribute="leading" id="r4V-9k-QHS"/>
+                            <constraint firstAttribute="bottom" secondItem="hBr-fq-W1Q" secondAttribute="bottom" id="u0o-dX-VRT"/>
+                            <constraint firstItem="0m9-t5-hPU" firstAttribute="leading" secondItem="ezH-UD-eum" secondAttribute="leading" id="z3M-v4-yS3"/>
                         </constraints>
                         <animations/>
                     </view>
                     <connections>
+                        <outlet property="buttonContainer" destination="hBr-fq-W1Q" id="o79-zA-idh"/>
                         <outlet property="endButton" destination="BkW-Ov-Poc" id="hzp-jR-ldf"/>
                         <outlet property="pauseButton" destination="DXx-qO-Snx" id="a3J-FL-LOJ"/>
                         <outlet property="startButton" destination="nV2-MM-Aty" id="BxR-LF-ZTM"/>
+                        <outlet property="timerContainer" destination="0m9-t5-hPU" id="Ocr-WI-D2J"/>
                         <outlet property="timerTextField" destination="m16-QP-a8o" id="AXE-9A-kBO"/>
                     </connections>
                 </viewController>

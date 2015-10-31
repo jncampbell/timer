@@ -16,7 +16,9 @@ class TimerViewController: NSViewController
     var reports = [Report]()
     var timer = Timer(hours: 00, minutes: 00, seconds: 00)
     var supervisor = Supervisor()
-
+    
+    @IBOutlet weak var timerContainer: NSView!
+    @IBOutlet weak var buttonContainer: NSView!
     @IBOutlet weak var timerTextField: NSTextFieldCell!
     @IBOutlet weak var startButton: NSButton!
     @IBOutlet weak var pauseButton: NSButton!
@@ -47,14 +49,21 @@ class TimerViewController: NSViewController
         stopWatch.invalidate()
         supervisor.endTime = NSDate().timeIntervalSince1970
         supervisor.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
-        let report = Report(
-            date: Int(supervisor.date!),
-            totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
-            totalNumberOfBreaks: supervisor.numberOfBreaks,
-            totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
-        )
-        reports.append(report)
+        if reports.last != nil && supervisor.date!.landsOnSameDayAs(NSTimeInterval(reports.last!.date)) {
+            reports.last!.totalSecondsSpentWorking += supervisor.totalSecondsSpentWorking
+            reports.last!.totalNumberOfBreaks += supervisor.numberOfBreaks
+            reports.last!.totalSecondsSpentOnBreak += supervisor.totalSecondsSpentOnBreak
+        } else {
+            let report = Report(
+                date: Int(supervisor.date!),
+                totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
+                totalNumberOfBreaks: supervisor.numberOfBreaks,
+                totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
+            )
+            reports.append(report)
+        }
         saveReport()
+        supervisor.numberOfBreaks = 0
         timerTextField.stringValue = timer.reset()
     }
     
@@ -106,7 +115,10 @@ class TimerViewController: NSViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = CGColorCreateGenericRGB(51.0/255.0, 45.0/255.0, 65.0/255.0, 1.0)
+        timerContainer.layer!.contents = NSImage(named: "timer-container-background")
+        buttonContainer.layer!.contents = NSImage(named: "button-container-background")
+        self.view.layer!.backgroundColor = CGColorCreateGenericRGB(30.0/255.0, 29.0/255.0, 35.0/255.0, 1.0)
+        timerTextField.textColor = NSColor(CGColor: CGColorCreateGenericRGB(27.0/255.0, 205.0/255.0, 252.0/255.0, 1.0))
         setStateForButtons()
         if let savedReports = loadReports() {
             reports += savedReports
@@ -114,7 +126,6 @@ class TimerViewController: NSViewController
     }
     
     //MARK: NSCoding
-    
     func saveReport() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(reports, toFile: Report.ArchiveURL.path!)
         if !isSuccessfulSave {
@@ -127,3 +138,38 @@ class TimerViewController: NSViewController
     }
 
 }
+
+extension NSTimeInterval {
+    
+    func landsOnSameDayAs(intervalToCompare: NSTimeInterval) -> Bool {
+        let formatter = NSDateFormatter()
+        formatter.timeZone = NSTimeZone()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        if formatter.stringFromDate(NSDate(timeIntervalSince1970: self)) == formatter.stringFromDate(NSDate(timeIntervalSince1970: intervalToCompare)) {
+            return true
+        }
+        
+        return false
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
