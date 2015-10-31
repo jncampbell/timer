@@ -13,9 +13,9 @@ import Quartz
 class TimerViewController: NSViewController
 {
     var stopWatch = NSTimer()
-    var reports = [Report]()
     var timer = Timer(hours: 00, minutes: 00, seconds: 00)
     var supervisor = Supervisor()
+    var reports = [Report]()
     
     @IBOutlet weak var timerContainer: NSView!
     @IBOutlet weak var buttonContainer: NSView!
@@ -123,6 +123,16 @@ class TimerViewController: NSViewController
         if let savedReports = loadReports() {
             reports += savedReports
         }
+        
+        
+        let borderBottom = CALayer()
+        borderBottom.backgroundColor = CGColorCreateGenericRGB(74.0/255.0, 74.0/255.0, 74.0/255.0, 0.25)
+        borderBottom.frame = CGRectMake(0.0, 0.0, timerContainer.frame.width, 2.0)
+        timerContainer.layer!.addSublayer(borderBottom)
+        
+        
+        
+        
     }
     
     //MARK: NSCoding
