@@ -1,5 +1,5 @@
 //
-//  Supervisor.swift
+//  TimeClock.swift
 //  Timer
 //
 //  Created by J. Campbell on 10/28/15.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Supervisor: NSObject {
+class TimeClock: NSObject {
     
-    var date: NSTimeInterval?
+    var date: String?
     var startTime: NSTimeInterval?
     var endTime: NSTimeInterval?
     var numberOfBreaks = 0
@@ -21,5 +21,9 @@ class Supervisor: NSObject {
         }
     }
     var totalSecondsSpentOnBreak = 0
+    
+    func generateReport() -> Report {
+        return Report(date: date!, totalSecondsSpentWorking: totalSecondsSpentWorking, totalNumberOfBreaks: numberOfBreaks, totalSecondsSpentOnBreak: totalSecondsSpentOnBreak)
+    }
     
 }

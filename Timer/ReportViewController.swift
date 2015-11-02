@@ -26,7 +26,7 @@ class ReportViewController: NSViewController, NSTableViewDelegate, NSTableViewDa
             case "DateColumn":
 
                 //print(NSDate(timeIntervalSince1970: NSTimeInterval(reports[row].date)))
-                return formatDateForTable(reports[row].date)
+                return reports[row].date
             case "TimeWorkedColumn":
                 return convertSecondsToTime(reports[row].totalSecondsSpentWorking)
             case "NumberOfStopsColumn":

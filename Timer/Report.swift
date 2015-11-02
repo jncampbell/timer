@@ -11,7 +11,7 @@ import Foundation
 class Report: NSObject, NSCoding {
     
     //MARK: Properties
-    var date: Int
+    var date: String
     var totalSecondsSpentWorking: Int
     var totalNumberOfBreaks: Int
     var totalSecondsSpentOnBreak: Int
@@ -21,7 +21,7 @@ class Report: NSObject, NSCoding {
     static let ArchiveURL = DocumentDirectory.URLByAppendingPathComponent("productivity-reports")
     
     //MARK: Initialization
-    init(date: Int, totalSecondsSpentWorking: Int, totalNumberOfBreaks: Int, totalSecondsSpentOnBreak: Int) {
+    init(date: String, totalSecondsSpentWorking: Int, totalNumberOfBreaks: Int, totalSecondsSpentOnBreak: Int) {
         self.date = date
         self.totalSecondsSpentWorking = totalSecondsSpentWorking
         self.totalNumberOfBreaks = totalNumberOfBreaks
@@ -45,7 +45,7 @@ class Report: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        let date = aDecoder.decodeObjectForKey(PropertyName.dateKey) as! Int
+        let date = aDecoder.decodeObjectForKey(PropertyName.dateKey) as! String
         let totalSecondsSpentWorking = aDecoder.decodeObjectForKey(PropertyName.timeSpentWorkingKey) as! Int
         let totalNumberOfBreaks = aDecoder.decodeObjectForKey(PropertyName.numberOfBreaksKey) as! Int
         let totalSecondsSpentOnBreak = aDecoder.decodeObjectForKey(PropertyName.timeSpentOnBreakKey) as! Int

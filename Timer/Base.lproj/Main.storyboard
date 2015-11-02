@@ -661,7 +661,7 @@
                     <window key="window" title="Timer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="620" y="700" width="480" height="125"/>
+                        <rect key="contentRect" x="1200" y="902" width="480" height="125"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="125"/>
                         <value key="maxSize" type="size" width="480" height="125"/>
@@ -862,8 +862,8 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="0m9-t5-hPU">
                                 <rect key="frame" x="0.0" y="52" width="480" height="73"/>
                                 <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZTH-KG-DbU">
-                                        <rect key="frame" x="18" y="13" width="444" height="47"/>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTH-KG-DbU">
+                                        <rect key="frame" x="18" y="22" width="444" height="30"/>
                                         <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="00:00:00" id="m16-QP-a8o" userLabel="Timer Text Field">
                                             <font key="font" size="29" name="YuGo-Medium"/>
@@ -882,34 +882,55 @@
                             <customView verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="hBr-fq-W1Q">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="53"/>
                                 <subviews>
-                                    <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nV2-MM-Aty">
-                                        <rect key="frame" x="14" y="9" width="151" height="32"/>
+                                    <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nV2-MM-Aty" customClass="TimerButton" customModule="Timer" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="13" width="139" height="28"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorInvert">
+                                                <configuration>
+                                                    <null key="inputImage"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <animations/>
-                                        <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ezm-j9-Beg">
+                                        <buttonCell key="cell" type="bevel" title="Start" bezelStyle="rounded" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="Ezm-j9-Beg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" size="13" name="Helvetica"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="pressStart:" target="Erg-2J-yPA" id="5zt-qS-SVG"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DXx-qO-Snx">
-                                        <rect key="frame" x="165" y="9" width="150" height="32"/>
+                                    <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DXx-qO-Snx" customClass="TimerButton" customModule="Timer" customModuleProvider="target">
+                                        <rect key="frame" x="171" y="13" width="138" height="28"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorInvert">
+                                                <configuration>
+                                                    <null key="inputImage"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <animations/>
-                                        <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oda-xJ-1dZ">
+                                        <buttonCell key="cell" type="bevel" title="Pause" bezelStyle="rounded" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="Oda-xJ-1dZ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" size="13" name="Helvetica"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="pressPause:" target="Erg-2J-yPA" id="uxc-gm-i0i"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkW-Ov-Poc">
-                                        <rect key="frame" x="315" y="9" width="151" height="32"/>
+                                    <button wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BkW-Ov-Poc" customClass="TimerButton" customModule="Timer" customModuleProvider="target">
+                                        <rect key="frame" x="321" y="13" width="139" height="28"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorInvert">
+                                                <configuration>
+                                                    <null key="inputImage"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <animations/>
-                                        <buttonCell key="cell" type="push" title="End" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Q0S-T0-EHO">
+                                        <buttonCell key="cell" type="bevel" title="End" bezelStyle="rounded" alignment="center" controlSize="small" imageScaling="proportionallyDown" inset="2" id="Q0S-T0-EHO">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" size="13" name="Helvetica"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="pressEnd:" target="Erg-2J-yPA" id="Q35-oi-Vif"/>
