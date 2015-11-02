@@ -12,9 +12,11 @@ import Quartz
 @IBDesignable
 class TimerViewController: NSViewController
 {
+    //MARK: Instance Variables
     var stopWatch = NSTimer()
     var timer = Timer(hours: 00, minutes: 00, seconds: 00)
-    var supervisor = Supervisor()
+    var dateHandler = TimerDate()
+    var timeClock = TimeClock()
     var reports = [Report]()
     
     @IBOutlet weak var timerContainer: NSView!
@@ -24,12 +26,14 @@ class TimerViewController: NSViewController
     @IBOutlet weak var pauseButton: NSButton!
     @IBOutlet weak var endButton: NSButton!
     
+    
+    //MARK: ButtonFunctions
     @IBAction func pressStart(sender: NSButton) {
         setStateForButtons(sender)
         timerTextField.stringValue = timer.returnAsString()
         stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
-        supervisor.startTime = NSDate().timeIntervalSince1970
-        supervisor.date = NSDate().timeIntervalSince1970
+        timeClock.startTime = dateHandler.currentTimeInterval()
+        timeClock.date = dateHandler.currentTimeInterval()
         sender.enabled = false
         
     }
@@ -38,7 +42,7 @@ class TimerViewController: NSViewController
         setStateForButtons(sender)
         if (sender.state == 1) {
             stopWatch.invalidate()
-            supervisor.numberOfBreaks++
+            timeClock.numberOfBreaks++
         } else {
             stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "updateTimeLabel", userInfo: nil, repeats: true)
         }
@@ -47,26 +51,24 @@ class TimerViewController: NSViewController
     @IBAction func pressEnd(sender: NSButton) {
         stopWatch.invalidate()
         setStateForButtons(sender)
-        supervisor.endTime = NSDate().timeIntervalSince1970
-        supervisor.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
-        if reports.last != nil && supervisor.date!.landsOnSameDayAs(NSTimeInterval(reports.last!.date)) {
-            reports.last!.totalSecondsSpentWorking += supervisor.totalSecondsSpentWorking
-            reports.last!.totalNumberOfBreaks += supervisor.numberOfBreaks
-            reports.last!.totalSecondsSpentOnBreak += supervisor.totalSecondsSpentOnBreak
+        timeClock.endTime = dateHandler.currentTimeInterval()
+        timeClock.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
+        if reports.last != nil && dateHandler.datesLandOnSameDay(timeClock.date!, date2: NSTimeInterval(reports.last!.date)) {
+            reports.last!.totalSecondsSpentWorking += timeClock.totalSecondsSpentWorking
+            reports.last!.totalNumberOfBreaks += timeClock.numberOfBreaks
+            reports.last!.totalSecondsSpentOnBreak += timeClock.totalSecondsSpentOnBreak
         } else {
             let report = Report(
-                date: Int(supervisor.date!),
-                totalSecondsSpentWorking: supervisor.totalSecondsSpentWorking,
-                totalNumberOfBreaks: supervisor.numberOfBreaks,
-                totalSecondsSpentOnBreak: supervisor.totalSecondsSpentOnBreak
+                date: Int(timeClock.date!),
+                totalSecondsSpentWorking: timeClock.totalSecondsSpentWorking,
+                totalNumberOfBreaks: timeClock.numberOfBreaks,
+                totalSecondsSpentOnBreak: timeClock.totalSecondsSpentOnBreak
             )
             reports.append(report)
         }
         saveReport()
-        supervisor.numberOfBreaks = 0
+        timeClock.numberOfBreaks = 0
     }
-    
-    
     
     private struct ButtonNames {
         static let Start = "Start"
@@ -113,37 +115,9 @@ class TimerViewController: NSViewController
         timerTextField.stringValue = timer.returnAsString()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.wantsLayer = true
-        designView()
-        setStateForButtons()
-        if let savedReports = loadReports() {
-            reports += savedReports
-        }
-        let lastReportDate = NSTimeInterval(reports.last!.date).getYearMonthDay()
-        let currentDate = NSDate().timeIntervalSince1970.getYearMonthDay()
-        
-        if lastReportDate == currentDate {
-            timerTextField.stringValue = convertSecondsToTime(reports.last!.totalSecondsSpentWorking)
-        }
-    }
-    
-    private func convertSecondsToTime(totalSeconds: Int) -> String {
-        let formatter = NSNumberFormatter()
-        formatter.minimumIntegerDigits = 2
-        var hours = 00, minutes = 00, seconds = 00
-        let numberOfSecondsInHour = 3600
-        hours = totalSeconds / numberOfSecondsInHour
-        minutes = (totalSeconds % numberOfSecondsInHour) / 60
-        seconds = (totalSeconds % numberOfSecondsInHour) % 60
-        
-        return formatter.stringFromNumber(hours)! + ":" + formatter.stringFromNumber(minutes)! + ":" + formatter.stringFromNumber(seconds)!
-    }
-
-    
     //MARK: ViewDesign
     func designView() -> Void {
+        self.view.wantsLayer = true
         //Backgrounds
         timerContainer.layer!.contents = NSImage(named: "timer-container-background")
         buttonContainer.layer!.contents = NSImage(named: "button-container-background")
@@ -170,32 +144,25 @@ class TimerViewController: NSViewController
     func loadReports() -> [Report]? {
         return NSKeyedUnarchiver.unarchiveObjectWithFile(Report.ArchiveURL.path!) as? [Report]
     }
-
-}
-
-extension NSTimeInterval {
     
-    func landsOnSameDayAs(intervalToCompare: NSTimeInterval) -> Bool {
-        let formatter = NSDateFormatter()
-        formatter.timeZone = NSTimeZone()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        if formatter.stringFromDate(NSDate(timeIntervalSince1970: self)) == formatter.stringFromDate(NSDate(timeIntervalSince1970: intervalToCompare)) {
-            return true
+    //MARK: Overrides
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        designView()
+        setStateForButtons()
+        if let savedReports = loadReports() {
+            reports += savedReports
+            
+            let lastReportDate = dateHandler.convertTimeIntervalToDateString(NSTimeInterval(reports.last!.date))
+            let currentDate = dateHandler.currentTimeInterval().dateString()
+            
+            if lastReportDate == currentDate {
+                timerTextField.stringValue = dateHandler.convertTotalSecondsToHoursMinsSecs(reports.last!.totalSecondsSpentWorking)
+            }
         }
-        
-        return false
     }
-    
-    func getYearMonthDay() -> String {
-        let formatter = NSDateFormatter()
-        formatter.timeZone = NSTimeZone()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        return formatter.stringFromDate(NSDate(timeIntervalSince1970: self))
-    }
-}
 
+}
 
 
 
