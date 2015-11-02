@@ -15,27 +15,25 @@ class TimerViewController: NSViewController
     //MARK: Instance Variables
     var stopWatch = NSTimer()
     var timer = Timer(hours: 00, minutes: 00, seconds: 00)
-    var dateHandler = TimerDate()
     var timeClock = TimeClock()
     var reports = [Report]()
     
+    //MARK: IBOutlets
     @IBOutlet weak var timerContainer: NSView!
-    @IBOutlet weak var buttonContainer: NSView!
     @IBOutlet weak var timerTextField: NSTextFieldCell!
+    @IBOutlet weak var buttonContainer: NSView!
     @IBOutlet weak var startButton: NSButton!
     @IBOutlet weak var pauseButton: NSButton!
     @IBOutlet weak var endButton: NSButton!
-    
     
     //MARK: ButtonFunctions
     @IBAction func pressStart(sender: NSButton) {
         setStateForButtons(sender)
         timerTextField.stringValue = timer.returnAsString()
         stopWatch = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector:  "updateTimeLabel", userInfo: nil, repeats: true)
-        timeClock.startTime = dateHandler.currentTimeInterval()
-        timeClock.date = dateHandler.currentTimeInterval()
+        timeClock.startTime = NSDate().timeIntervalSince1970
+        timeClock.date = convertTimeIntervalToDateString(NSDate().timeIntervalSince1970)
         sender.enabled = false
-        
     }
     
     @IBAction func pressPause(sender: NSButton) {
@@ -48,26 +46,27 @@ class TimerViewController: NSViewController
         }
     }
     
+    func updateTimeLabel() -> Void {
+        timer.increment()
+        timerTextField.stringValue = timer.returnAsString()
+    }
+    
     @IBAction func pressEnd(sender: NSButton) {
         stopWatch.invalidate()
         setStateForButtons(sender)
-        timeClock.endTime = dateHandler.currentTimeInterval()
-        timeClock.totalSecondsSpentWorking = (timer.hours * 60 * 60) + (timer.minutes * 60) + timer.seconds
-        if reports.last != nil && dateHandler.datesLandOnSameDay(timeClock.date!, date2: NSTimeInterval(reports.last!.date)) {
+        timeClock.endTime = NSDate().timeIntervalSince1970
+        timeClock.totalSecondsSpentWorking = (timer.hours * 3600) + (timer.minutes * 60) + timer.seconds
+        if reports.last != nil && timeClock.date! == reports.last!.date {
             reports.last!.totalSecondsSpentWorking += timeClock.totalSecondsSpentWorking
             reports.last!.totalNumberOfBreaks += timeClock.numberOfBreaks
             reports.last!.totalSecondsSpentOnBreak += timeClock.totalSecondsSpentOnBreak
         } else {
-            let report = Report(
-                date: Int(timeClock.date!),
-                totalSecondsSpentWorking: timeClock.totalSecondsSpentWorking,
-                totalNumberOfBreaks: timeClock.numberOfBreaks,
-                totalSecondsSpentOnBreak: timeClock.totalSecondsSpentOnBreak
-            )
+            let report = timeClock.generateReport()
             reports.append(report)
         }
         saveReport()
         timeClock.numberOfBreaks = 0
+        timerTextField.stringValue = timer.reset()
     }
     
     private struct ButtonNames {
@@ -77,7 +76,7 @@ class TimerViewController: NSViewController
         static let End = "End"
     }
     
-    func setStateForButtons(buttonPressed: NSButton?=nil) -> Void {
+    private func setStateForButtons(buttonPressed: NSButton?=nil) -> Void {
         
         if let button = buttonPressed {
             switch button.title {
@@ -110,9 +109,12 @@ class TimerViewController: NSViewController
         }
     }
     
-    func updateTimeLabel() -> Void {
-        timer.increment()
-        timerTextField.stringValue = timer.returnAsString()
+    private func convertTimeIntervalToDateString(date: NSTimeInterval) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeZone = NSTimeZone()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: date))
     }
     
     //MARK: ViewDesign
@@ -125,7 +127,7 @@ class TimerViewController: NSViewController
         
         //Text Color
         timerTextField.textColor = NSColor(CGColor: CGColorCreateGenericRGB(27.0/255.0, 205.0/255.0, 252.0/255.0, 1.0))
-        
+
         //Borders
         let borderBottom = CALayer()
         borderBottom.backgroundColor = CGColorCreateGenericRGB(74.0/255.0, 74.0/255.0, 74.0/255.0, 0.25)
@@ -152,13 +154,6 @@ class TimerViewController: NSViewController
         setStateForButtons()
         if let savedReports = loadReports() {
             reports += savedReports
-            
-            let lastReportDate = dateHandler.convertTimeIntervalToDateString(NSTimeInterval(reports.last!.date))
-            let currentDate = dateHandler.currentTimeInterval().dateString()
-            
-            if lastReportDate == currentDate {
-                timerTextField.stringValue = dateHandler.convertTotalSecondsToHoursMinsSecs(reports.last!.totalSecondsSpentWorking)
-            }
         }
     }
 

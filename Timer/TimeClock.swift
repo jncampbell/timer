@@ -10,7 +10,7 @@ import Foundation
 
 class TimeClock: NSObject {
     
-    var date: NSTimeInterval?
+    var date: String?
     var startTime: NSTimeInterval?
     var endTime: NSTimeInterval?
     var numberOfBreaks = 0
@@ -21,5 +21,9 @@ class TimeClock: NSObject {
         }
     }
     var totalSecondsSpentOnBreak = 0
+    
+    func generateReport() -> Report {
+        return Report(date: date!, totalSecondsSpentWorking: totalSecondsSpentWorking, totalNumberOfBreaks: numberOfBreaks, totalSecondsSpentOnBreak: totalSecondsSpentOnBreak)
+    }
     
 }
